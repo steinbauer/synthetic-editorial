@@ -2,6 +2,42 @@
 # PROJECT ##################################################
 ############################################################
 .PHONY: project
+
+
+# docker
+dc:
+	docker compose $(filter-out $@,$(MAKECMDGOALS))
+
+dcu:
+	docker compose up -d
+
+dcd:
+	docker compose down
+
+dcs:
+	docker compose stop
+
+dcps:
+	docker compose ps
+
+dps:
+	docker ps
+
+dce:
+	docker compose exec app $(filter-out $@,$(MAKECMDGOALS))
+
+dcc:
+	docker compose exec app bin/console $(filter-out $@,$(MAKECMDGOALS))
+
+dcb:
+	docker compose exec app bash
+
+dcr:
+	docker compose run
+
+
+
+
 project: install setup
 
 .PHONY: init
@@ -86,3 +122,8 @@ docker-adminer:
 		-it \
 		-p 9999:80 \
 		dockette/adminer:dg
+
+
+# this is a magic snippet - it allows to pass arguments to makefile
+%:
+	@:
