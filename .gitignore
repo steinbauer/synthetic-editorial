@@ -20,3 +20,6 @@
 
 # DevData
 .docker/data
+
+# .github - temporary
+.github
