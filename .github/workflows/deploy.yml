@@ -1,23 +1,69 @@
-deploy:
-    name: Deploy to Rancher
-    runs-on: ubuntu-latest
-    needs: docker  # after build
+# .github/workflows/deploy.yml
+name: "CI/CD: PHPStan + Docker Build + Rancher Deploy"
 
-    steps:
-        - name: Checkout repo
-          uses: actions/checkout@v3
+on:
+    push:
+        branches: [main]
 
-        - name: Install Rancher CLI
-          run: |
-              curl -sL https://github.com/rancher/cli/releases/download/v0.6.4/rancher-linux-amd64-v0.6.4.tar.gz | tar xz
-              sudo mv rancher-v0.6.4/rancher /usr/local/bin/rancher
+jobs:
+    phpstan:
+        name: PHPStan
+        runs-on: ubuntu-latest
 
-        - name: Deploy app to Rancher
-          run: |
-              rancher --url "${{ secrets.RANCHER_URL }}" \
-                      --access-key "${{ secrets.RANCHER_ACCESS_KEY }}" \
-                      --secret-key "${{ secrets.RANCHER_SECRET_KEY }}" \
-                      up -d --stack "synthetic-editorial" \
-                      --file docker-compose.prod.yml \
-                      --rancher-file rancher-compose.yml \
-                      --pull --upgrade --confirm-upgrade
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.2'
+                  tools: composer
+
+            - name: Install dependencies
+              run: composer install
+
+            - name: Run PHPStan
+              run: vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=512M
+
+    docker:
+        name: Build & Push Docker Image
+        runs-on: ubuntu-latest
+        needs: phpstan
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Log in to GitHub Container Registry
+              run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u steinbauer --password-stdin
+
+            - name: Build Docker image
+              run: docker build -t ghcr.io/steinbauer/synthetic-editorial:latest -f .docker/php/Dockerfile .
+
+            - name: Push Docker image
+              run: docker push ghcr.io/steinbauer/synthetic-editorial:latest
+
+    deploy:
+        name: Deploy to Rancher
+        runs-on: ubuntu-latest
+        needs: docker
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+
+            - name: Install Rancher CLI
+              run: |
+                  curl -sL https://github.com/rancher/cli/releases/download/v0.6.4/rancher-linux-amd64-v0.6.4.tar.gz | tar xz
+                  sudo mv rancher-v0.6.4/rancher /usr/local/bin/rancher
+
+            - name: Deploy app to Rancher
+              run: |
+                  rancher --url "${{ secrets.RANCHER_URL }}" \
+                          --access-key "${{ secrets.RANCHER_ACCESS_KEY }}" \
+                          --secret-key "${{ secrets.RANCHER_SECRET_KEY }}" \
+                          up -d --stack "${{ secrets.RANCHER_STACK_NAME }}" \
+                          --file docker-compose.prod.yml \
+                          --rancher-file rancher-compose.yml \
+                          --pull --upgrade --confirm-upgrade
