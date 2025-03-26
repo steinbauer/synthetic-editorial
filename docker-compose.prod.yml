@@ -1,3 +1,5 @@
+version: '2' #rancher 1 must have here
+
 services:
     php:
         image: ghcr.io/steinbauer/synthetic-editorial:latest
