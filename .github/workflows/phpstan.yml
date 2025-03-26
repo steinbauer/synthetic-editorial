@@ -14,4 +14,4 @@ jobs:
     name: "Phpstan"
     uses: contributte/.github/.github/workflows/phpstan.yml@v1
     with:
-      make: "init phpstan"
+      make: "init github-phpstan"

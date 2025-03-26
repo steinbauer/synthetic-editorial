@@ -1,4 +1,4 @@
-.PHONY: dc dcu dcd dcs dcps dps dcr dcbu console php bash chmod composer docker-adminer phpstan
+.PHONY: dc dcu dcd dcs dcps dps dcr dcbu console php bash chmod composer docker-adminer phpstan github-phpstan
 
 # DOCKER ##################################################
 dc:
@@ -56,6 +56,10 @@ docker-adminer:
 phpstan:
 	docker compose exec /var/www/html/vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=512M
 
+
+# GITHUB ##################################################
+github-phpstan:
+	docker compose run --rm php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=512M
 
 
 
