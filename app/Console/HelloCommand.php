@@ -21,7 +21,7 @@ class HelloCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$output->writeLn('Hello world!');
+		$output->writeln('Hello world!');
 
 		return 0;
 	}

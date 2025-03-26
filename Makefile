@@ -54,7 +54,7 @@ docker-adminer:
 
 # TESTS ###################################################
 phpstan:
-	docker compose exec /var/www/html/vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=512M
+	docker compose exec php /var/www/html/vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=512M
 
 
 # GITHUB ##################################################

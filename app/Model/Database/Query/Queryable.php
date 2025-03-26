@@ -8,6 +8,9 @@ use Doctrine\ORM\Query;
 interface Queryable
 {
 
+	/**
+	 * @return Query<mixed, mixed>
+	 */
 	public function doQuery(EntityManagerInterface $em): Query;
 
 }

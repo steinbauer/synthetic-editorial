@@ -19,3 +19,6 @@ parameters:
 	doctrine:
 		objectManagerLoader: .build/phpstan-doctrine.php
 		ormRepositoryClass: App\Model\Database\Repository\AbstractRepository
+
+	ignoreErrors:
+		- '#has PHPDoc tag @method for method .*? with no value type specified in iterable type array#'

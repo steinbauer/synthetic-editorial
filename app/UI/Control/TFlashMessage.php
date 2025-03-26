@@ -13,7 +13,7 @@ trait TFlashMessage
 {
 
 	/**
-	 * @param string|stdClass|HtmlStringable $message
+	 * @param stdClass|string|\Stringable $message
 	 * @internal
 	 */
 	public function flashMessage(mixed $message, string $type = 'info'): stdClass
