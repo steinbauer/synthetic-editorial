@@ -1,0 +1,18 @@
+services:
+    php:
+        image: ghcr.io/steinbauer/synthetic-editorial:latest
+        labels:
+            io.rancher.container.pull_image: always
+            io.rancher.scheduler.affinity:host_label_ne: machine=ps2
+            traefik.synthetic_polyweb_cz.frontend.rule: Host:synthetic.polyweb.cz
+            traefik.synthetic_polyweb_cz.frontend.redirect.entryPoint: https
+        environment:
+            NETTE_DEBUG: 0
+            PHP_EXTENSION_XDEBUG: 0
+            PHP_EXTENSION_PGSQL: 1
+            PHP_EXTENSION_PDO_PGSQL: 1
+            PHP_EXTENSION_MYSQLI: 0
+            PHP_EXTENSION_GD: 1
+            PHP_EXTENSION_INTL: 1
+            STARTUP_COMMAND_1: composer install
+            STARTUP_COMMAND_2: php bin/console migrations:migrate --no-interaction --allow-no-migration
