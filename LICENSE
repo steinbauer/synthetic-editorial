@@ -1,5 +1,6 @@
 MIT License
 
+Copyright (c) 2018 Contributte
 Copyright (c) 2025 Petr Steinbauer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -10,7 +11,9 @@ copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+copies or substantial portions of the Software. Attribution to the original authors,
+including Petr Steinbauer and Contributte, must be preserved in any distribution,
+fork, or derivative work.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
