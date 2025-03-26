@@ -59,7 +59,8 @@ phpstan:
 
 # GITHUB ##################################################
 github-phpstan:
-	docker compose run --rm php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=512M
+	docker compose -f docker-compose.github.yml run --rm php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=512M
+
 
 
 
