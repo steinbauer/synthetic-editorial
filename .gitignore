@@ -19,7 +19,7 @@
 .idea/
 
 # DevData
-.docker/data
+.docker/data/
 
 # .github - temporary
 .github/workflows/codesniffer.yml
