@@ -6,24 +6,23 @@ on:
 
 jobs:
     phpstan:
-        name: PHPStan
-        runs-on: ubuntu-latest
+        name: "Phpstan"
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
+        on:
+            pull_request:
 
-            - name: Set up PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.2'
-                  tools: composer
+            push:
+                branches: ["*"]
 
-            - name: Install dependencies
-              run: composer install
+            schedule:
+                - cron: "0 8 * * 1"
 
-            - name: Run PHPStan
-              run: vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=512M
+        jobs:
+            phpstan:
+                name: "Phpstan"
+                uses: contributte/.github/.github/workflows/phpstan.yml@v1
+                with:
+                    make: "init github-phpstan"
 
     docker:
         name: Build & Push Docker Image
