@@ -49,6 +49,7 @@ jobs:
                   rancher --url "${{ secrets.RANCHER_URL }}" \
                           --access-key "${{ secrets.RANCHER_ACCESS_KEY }}" \
                           --secret-key "${{ secrets.RANCHER_SECRET_KEY }}" \
+                          --env "${{ secrets.RANCHER_ENVIRONMENT }}" \
                           up -d --stack "${{ secrets.RANCHER_STACK_NAME }}" \
                           --file docker-compose.prod.yml \
                           --rancher-file rancher-compose.yml \
