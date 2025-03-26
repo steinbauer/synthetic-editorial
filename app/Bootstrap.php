@@ -43,7 +43,7 @@ final class Bootstrap
 			$configurator->addConfig(__DIR__ . '/../config/env/prod.neon');
 		}
 
-		if(getenv('NETTE_DEBUG') && file_exists(__DIR__ . '/../config/local.neon')) {
+		if((bool) getenv('NETTE_DEBUG') === true && file_exists(__DIR__ . '/../config/local.neon')) {
 			$configurator->addConfig(__DIR__ . '/../config/local.neon');
 		}
 
