@@ -1,8 +1,4 @@
-############################################################
-# PROJECT ##################################################
-############################################################
 .PHONY: dc dcu dcd dcs dcps dps dcr dcbu console php bash chmod
-
 
 # DOCKER ##################################################
 dc:
@@ -52,7 +48,9 @@ chmod:
 composer:
 	docker compose exec php composer $(filter-out $@,$(MAKECMDGOALS))
 
-
+# ADMINER #################################################
+docker-adminer:
+	docker run -it -p 9999:80 dockette/adminer:dg
 
 
 
@@ -62,7 +60,8 @@ composer:
 
 # old - wip, todo
 
-project: install setup
+project:
+	install setup
 
 
 init:
@@ -110,7 +109,7 @@ coverage:
 
 .PHONY: dev
 dev:
-	NETTE_DEBUG=1 NETTE_ENV=dev php -S 0.0.0.0:8000 -t www
+	NETTE_DEBUG=1 NETTE_ENV=dev php -S database:8000 -t www
 
 .PHONY: build
 build:
@@ -140,14 +139,14 @@ docker-postgres:
 		-e POSTGRES_USER=contributte \
 		dockette/postgres:12
 
-.PHONY: docker-adminer
-docker-adminer:
-	docker run \
-		-it \
-		-p 9999:80 \
-		dockette/adminer:dg
 
 
-# this is a magic snippet - it allows to pass arguments to makefile
+
+
+
+
+
+
+# ELSE ####################################################
 %:
 	@:
