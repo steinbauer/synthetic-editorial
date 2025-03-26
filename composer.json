@@ -1,0 +1,72 @@
+{
+  "name": "steinbauer/synthetic-editorial",
+  "description": "AI-powered editorial system that searches sources, analyzes content, and generates articles based on a defined editorial persona.",
+  "keywords": [
+    "synthetic",
+    "editorial",
+    "ai",
+    "generators",
+    "php",
+    "nette",
+    "contributte"
+  ],
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "php": ">=8.2",
+
+    "contributte/bootstrap": "^v0.6.0",
+    "contributte/application": "^v0.5.2",
+    "contributte/cache": "v0.6.0",
+    "contributte/console": "v0.10.1",
+    "contributte/console-extra": "v0.8.0",
+    "contributte/event-dispatcher": "v0.9.1",
+    "contributte/event-dispatcher-extra": "v0.10.1",
+    "contributte/di": "v0.5.6",
+    "contributte/forms": "v0.5.1",
+    "contributte/http": "v0.4.1",
+    "contributte/latte": "v0.6.0",
+    "contributte/mail": "v0.8.0",
+    "contributte/mailing": "v0.6.0",
+    "contributte/monolog": "v0.5.2",
+    "contributte/security": "v0.4.0",
+    "contributte/utils": "v0.7.0",
+    "contributte/tracy": "v0.6.0",
+    "contributte/pdf": "v7.0.0",
+
+    "nettrine/annotations": "^0.7.0",
+    "nettrine/orm": "^0.8.0",
+    "nettrine/dbal": "^0.8.0",
+    "nettrine/cache": "^0.3.0",
+    "nettrine/migrations": "^0.9.1",
+    "nettrine/fixtures": "v0.7.2"
+  },
+  "require-dev": {
+    "contributte/qa": "*",
+    "contributte/tester": "*",
+    "contributte/phpstan": "*",
+    "contributte/dev": "*",
+    "mockery/mockery": "*",
+    "nelmio/alice": "*",
+    "phpstan/phpstan-doctrine": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app",
+      "Database\\": "db"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
+    }
+  },
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "composer/package-versions-deprecated": true
+    }
+  }
+}

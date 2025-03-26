@@ -1,15 +1,18 @@
 ############################################################
 # PROJECT ##################################################
 ############################################################
-.PHONY: project
+.PHONY: dc dcu dcd dcs dcps dps dcr dcbu console php bash chmod
 
 
-# docker
+# DOCKER ##################################################
 dc:
 	docker compose $(filter-out $@,$(MAKECMDGOALS))
 
 dcu:
 	docker compose up -d
+
+dcu-full:
+	docker compose up
 
 dcd:
 	docker compose down
@@ -23,24 +26,45 @@ dcps:
 dps:
 	docker ps
 
-dce:
-	docker compose exec app $(filter-out $@,$(MAKECMDGOALS))
-
-dcc:
-	docker compose exec app bin/console $(filter-out $@,$(MAKECMDGOALS))
-
-dcb:
-	docker compose exec app bash
-
 dcr:
 	docker compose run
 
+dcbu:
+	docker compose build
 
 
+# EXEC COMMANDS ###########################################
+console:
+	docker compose exec php bin/console $(filter-out $@,$(MAKECMDGOALS))
+
+php:
+	docker compose exec php $(filter-out $@,$(MAKECMDGOALS))
+
+bash:
+	docker compose exec php bash
+
+
+# PERMISSIONS #############################################
+chmod:
+	sudo chown -R $(USER):$(USER) .docker/data
+
+# COMPOSER ################################################
+composer:
+	docker compose exec php composer $(filter-out $@,$(MAKECMDGOALS))
+
+
+
+
+
+
+
+
+
+# old - wip, todo
 
 project: install setup
 
-.PHONY: init
+
 init:
 	cp config/local.neon.example config/local.neon
 
