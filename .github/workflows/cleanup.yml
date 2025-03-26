@@ -1,0 +1,22 @@
+name: Cleanup Old Workflow Runs
+
+on:
+    schedule:
+        - cron: '0 4 * * 0'  # every Sunday at 4:00 AM
+
+jobs:
+    cleanup:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Install GitHub CLI
+              uses: cli/cli-action@v2
+
+            - name: Authenticate
+              run: echo "${{ secrets.GH_ADMIN_PAT }}" | gh auth login --with-token
+
+            - name: Delete runs older than 7 days
+              run: |
+                  gh run list --limit 100 --json databaseId,createdAt | jq -r '
+                    .[] | select((now - (fromdateiso8601(.createdAt))) > 60*60*24*7) | .databaseId
+                  ' | xargs -n1 gh run delete -y
