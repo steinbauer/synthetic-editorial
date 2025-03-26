@@ -1,4 +1,4 @@
-.PHONY: dc dcu dcd dcs dcps dps dcr dcbu console php bash chmod
+.PHONY: dc dcu dcd dcs dcps dps dcr dcbu console php bash chmod composer docker-adminer phpstan
 
 # DOCKER ##################################################
 dc:
@@ -52,13 +52,16 @@ composer:
 docker-adminer:
 	docker run -it -p 9999:80 dockette/adminer:dg
 
+# TESTS ###################################################
+phpstan:
+	docker compose exec /var/www/html/vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=512M
 
 
 
 
 
-
-# old - wip, todo
+# OLD, WIP, NOT USED ################################
+# IDEA, all commands must be run in docker - using "docker compose" - no php in pc
 
 project:
 	install setup
@@ -94,10 +97,6 @@ cs:
 .PHONY: csf
 csf:
 	vendor/bin/codefixer app tests
-
-.PHONY: phpstan
-phpstan:
-	vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=512M
 
 .PHONY: tests
 tests:

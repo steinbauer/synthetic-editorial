@@ -22,4 +22,9 @@
 .docker/data
 
 # .github - temporary
-.github
+.github/workflows/codesniffer.yml
+.github/workflows/coverage.yml
+.github/workflows/tests.yml
+.github/.kodiak.toml
+.github/dependabot.yml
+
