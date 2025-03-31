@@ -60,7 +60,7 @@ jobs:
                             --file docker-compose.prod.yml \
                             --rancher-file rancher-compose.yml \
                             --upgrade --confirm-upgrade \
-                            --services database
+                            database
 
             -   name: Deploy PHP (force upgrade)
                 run: |
@@ -72,5 +72,5 @@ jobs:
                             --file docker-compose.prod.yml \
                             --rancher-file rancher-compose.yml \
                             --force-upgrade --confirm-upgrade \
-                            --services php
+                            php
 
