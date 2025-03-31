@@ -22,11 +22,11 @@ nettrine.dbal:
 	configuration:
 		#sqlLogger: Nettrine\DBAL\Logger\PsrLogger(@Monolog\Logger)
 	connection:
-		driver: pdo_sqlite
+		driver: pdo_pgsql
 		host: database
-		user: %POSTGRES_USER%
-		password: %POSTGRES_PASSWORD%
-		dbname: %POSTGRES_DB%
+		user: %env.POSTGRES_USER%
+		password: %env.POSTGRES_PASSWORD%
+		dbname: %env.POSTGRES_DB%
 		#port: %database.port%
 		serverVersion: 10.0
 

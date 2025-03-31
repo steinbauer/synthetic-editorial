@@ -36,6 +36,10 @@ final class Bootstrap
 			'wwwDir' => realpath(__DIR__ . '/../www'),
 		]);
 
+		$configurator->addDynamicParameters([
+			'env' => getenv(),
+		]);
+
 		// Load development or production config
 		if (getenv('NETTE_ENV', true) === 'dev') {
 			$configurator->addConfig(__DIR__ . '/../config/env/dev.neon');
