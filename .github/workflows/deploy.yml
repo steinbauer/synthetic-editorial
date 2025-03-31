@@ -58,7 +58,7 @@ jobs:
                             --env "${{ secrets.RANCHER_ENVIRONMENT }}" \
                             up -d --stack "${{ secrets.RANCHER_STACK_NAME }}" \
                             --file docker-compose.prod.yml \
-                            --env-file .env
+                            --env-file .env \
                             --rancher-file rancher-compose.yml \
                             --upgrade --confirm-upgrade \
                             database
@@ -71,7 +71,7 @@ jobs:
                             --env "${{ secrets.RANCHER_ENVIRONMENT }}" \
                             up -d --stack "${{ secrets.RANCHER_STACK_NAME }}" \
                             --file docker-compose.prod.yml \
-                            --env-file .env
+                            --env-file .env \
                             --rancher-file rancher-compose.yml \
                             --force-upgrade --confirm-upgrade \
                             php
