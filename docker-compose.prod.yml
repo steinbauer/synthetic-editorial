@@ -21,3 +21,11 @@ services:
             PHP_EXTENSION_INTL: 1
             STARTUP_COMMAND_1: composer install
             STARTUP_COMMAND_2: php bin/console migrations:migrate --no-interaction --allow-no-migration
+    database:
+        image: dockette/postgres:10
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
+        volumes:
+            - /var/primary/nfs_share/synthetic-editorial:/var/lib/postgresql/data

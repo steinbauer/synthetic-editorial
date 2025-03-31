@@ -36,21 +36,41 @@ jobs:
         needs: docker
 
         steps:
-            - name: Checkout repo
-              uses: actions/checkout@v3
+            -   name: Checkout repo
+                uses: actions/checkout@v3
 
-            - name: Install Rancher CLI
-              run: |
-                  curl -sL https://github.com/rancher/cli/releases/download/v0.6.4/rancher-linux-amd64-v0.6.4.tar.gz | tar xz
-                  sudo mv rancher-v0.6.4/rancher /usr/local/bin/rancher
+            -   name: Create .env file from secrets
+                run: |
+                    echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
+                    echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+                    echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
 
-            - name: Deploy app to Rancher
-              run: |
-                  rancher --url "${{ secrets.RANCHER_URL }}" \
-                          --access-key "${{ secrets.RANCHER_ACCESS_KEY }}" \
-                          --secret-key "${{ secrets.RANCHER_SECRET_KEY }}" \
-                          --env "${{ secrets.RANCHER_ENVIRONMENT }}" \
-                          up -d --stack "${{ secrets.RANCHER_STACK_NAME }}" \
-                          --file docker-compose.prod.yml \
-                          --rancher-file rancher-compose.yml \
-                          --pull --upgrade --confirm-upgrade
+            -   name: Install Rancher CLI
+                run: |
+                    curl -sL https://github.com/rancher/cli/releases/download/v0.6.4/rancher-linux-amd64-v0.6.4.tar.gz | tar xz
+                    sudo mv rancher-v0.6.4/rancher /usr/local/bin/rancher
+
+            -   name: Deploy database (soft upgrade only)
+                run: |
+                    rancher --url "${{ secrets.RANCHER_URL }}" \
+                            --access-key "${{ secrets.RANCHER_ACCESS_KEY }}" \
+                            --secret-key "${{ secrets.RANCHER_SECRET_KEY }}" \
+                            --env "${{ secrets.RANCHER_ENVIRONMENT }}" \
+                            up -d --stack "${{ secrets.RANCHER_STACK_NAME }}" \
+                            --file docker-compose.prod.yml \
+                            --rancher-file rancher-compose.yml \
+                            --upgrade --confirm-upgrade \
+                            --services database
+
+            -   name: Deploy PHP (force upgrade)
+                run: |
+                    rancher --url "${{ secrets.RANCHER_URL }}" \
+                            --access-key "${{ secrets.RANCHER_ACCESS_KEY }}" \
+                            --secret-key "${{ secrets.RANCHER_SECRET_KEY }}" \
+                            --env "${{ secrets.RANCHER_ENVIRONMENT }}" \
+                            up -d --stack "${{ secrets.RANCHER_STACK_NAME }}" \
+                            --file docker-compose.prod.yml \
+                            --rancher-file rancher-compose.yml \
+                            --force-upgrade --confirm-upgrade \
+                            --services php
+
